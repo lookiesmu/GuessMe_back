@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,8 +35,14 @@ public class QuizService {
     }
 
     public void solveQuiz(int score, String nickname){
-        User examiner = userRepo.findByNickname(nickname).get();
-        User answerer = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User examiner = userRepo.findByNickname(nickname).get();//출제자
+        User answerer = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();//문제를 푼 사람
         scoreRepo.save(Score.builder().answerer(answerer).examiner(examiner).score(score).build());
+    }
+    public void register(List<Quiz> quizList){
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<UserQuiz> saveUserQuizList = new ArrayList<>();
+        quizList.forEach(q ->
+           userQuizRepo.save(UserQuiz.builder().quiz(q).user(user).answer(q.getAnswer()).build()));
     }
 }

@@ -16,12 +16,12 @@ import javax.persistence.*;
 @Builder
 public class Score {
     @Id
-    @JoinColumn
+    @JoinColumn(name="examiner")
     @OneToOne
     private User examiner;
 
     @Id
-    @JoinColumn
+    @JoinColumn(name="answerer")
     @OneToOne
     private User answerer;
 

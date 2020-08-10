@@ -18,12 +18,12 @@ public class UserQuiz
 {
     @Id
     @OneToOne
-    @JoinColumn
+    @JoinColumn(name="user_id")
     private User user;
 
     @Id
     @OneToOne
-    @JoinColumn
+    @JoinColumn(name="quiz_id")
     private Quiz quiz;
 
     @Column
