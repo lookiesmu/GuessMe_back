@@ -6,8 +6,10 @@ import ac.kr.smu.lookie.guessme.repository.ScoreRepository;
 import ac.kr.smu.lookie.guessme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -15,6 +17,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepo;
     private final ScoreRepository scoreRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public void changeQuizCreate(int quizCreate){//사용자의 퀴즈 생성 여부 변경
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -29,4 +32,7 @@ public class UserService {
         return scores;
     }
 
+    public void saveUser(User user) {
+        userRepo.save(user);
+    }
 }

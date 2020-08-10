@@ -28,14 +28,10 @@ public class UserController {
 
 
     @PostMapping //회원가입
-    public ResponseEntity<?> signUp(@RequestParam String nickname,
-                                 @RequestParam String password){
-        userRepository.save(User.builder()
-                .nickname(nickname)
-                .password(passwordEncoder.encode(password))
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build());
-        return ResponseEntity.ok("{}"); //확인하기
+    public ResponseEntity<?> signUp(@RequestBody Map<String, String> map) {
+        User user = User.builder().nickname(map.get("nickname")).password(map.get("password")).build();
+        userService.saveUser(user);
+        return ResponseEntity.ok("{}");
     }
 
     @GetMapping("/rank")
