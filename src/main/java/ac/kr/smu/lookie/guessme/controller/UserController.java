@@ -5,10 +5,7 @@ import ac.kr.smu.lookie.guessme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Collections;
@@ -35,5 +32,7 @@ public class UserController {
         return ResponseEntity.ok("{}"); //확인하기
     }
 
+    @GetMapping("/rank")
+    public Map<String, >
 
 }
