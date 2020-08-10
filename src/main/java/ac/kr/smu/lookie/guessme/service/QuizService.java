@@ -45,4 +45,9 @@ public class QuizService {
         quizList.forEach(q ->
            userQuizRepo.save(UserQuiz.builder().quiz(q).user(user).answer(q.getAnswer()).build()));
     }
+    public void delete(){
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userQuizRepo.deleteByUser(user);
+    }
+
 }
