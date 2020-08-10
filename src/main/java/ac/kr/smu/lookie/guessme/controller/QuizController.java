@@ -37,6 +37,6 @@ public class QuizController {
     @PostMapping("/{nickname}")
     public ResponseEntity<?> postQuiz(@RequestBody int score, @PathParam("nickname") String nickname){
         quizService.solveQuiz(score, nickname);
-        return null;
+        return ResponseEntity.ok("{}");
     }
 }
