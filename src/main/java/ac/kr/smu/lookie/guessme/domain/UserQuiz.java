@@ -1,34 +1,33 @@
 package ac.kr.smu.lookie.guessme.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 
 @Entity
 @Table
-@AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@IdClass(ScoreId.class)
+@AllArgsConstructor
 @Builder
-public class Score {
+@Getter
+@IdClass(UserQuizId.class)
+public class UserQuiz
+{
     @Id
-    @JoinColumn(name="examiner")
     @OneToOne
-    @JsonIgnore
-    private User examiner;
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Id
-    @JoinColumn(name="answerer")
     @OneToOne
-    private User answerer;
+    @JoinColumn(name="quiz_id")
+    private Quiz quiz;
 
     @Column
-    private int score;
+    private int answer;
+
 
 }
