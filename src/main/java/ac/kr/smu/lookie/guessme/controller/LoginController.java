@@ -6,13 +6,12 @@ import ac.kr.smu.lookie.guessme.exception.CNicknameSigninFailedException;
 import ac.kr.smu.lookie.guessme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 @EnableWebMvc
 @RequiredArgsConstructor
@@ -26,13 +25,15 @@ public class LoginController {
 
 
     @PostMapping(value = "/login") //login
-    public String login(@RequestParam String nickname,
-                        @RequestParam String password){
-        User user = userRepository.findByNickname(nickname).orElseThrow(CNicknameSigninFailedException::new);
-        if(!passwordEncoder.matches(password, user.getPassword()))
+//    public String login(@RequestParam String nickname, @RequestParam String password){
+    public String login(@RequestBody Map<String, String> map){
+//        User user = User.builder().nickname(map.get("nickname")).password(map.get("password")).build();
+        Optional<User> user = userRepository.findByNickname(map.get("nickname"));
+                //.orElseThrow(CNicknameSigninFailedException::new));
+        if(!passwordEncoder.matches(map.get("password"), user.get().getPassword()))
             throw new CNicknameSigninFailedException();
 
-        return jwtTokenProvider.createToken(String.valueOf(user.getUserId()),user.getRoles());
+        return jwtTokenProvider.createToken(String.valueOf(user.get().getUserId()),user.get().getRoles());
     }
 
 
