@@ -28,7 +28,7 @@ public class UserController {
     private final UserService userService;
     @GetMapping("/{nickname}")
     public ResponseEntity<?> getUser(@PathVariable("nickname") String nickname){//닉네임 중복확인
-        return new ResponseEntity<>(nickname, HttpStatus.OK);
+        return new ResponseEntity<>(userService.checkDuplicateNickname(nickname), HttpStatus.OK);
     }
 
     @PostMapping //회원가입
