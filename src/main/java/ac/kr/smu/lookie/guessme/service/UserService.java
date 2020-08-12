@@ -28,19 +28,17 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public Map<String, String> checkDuplicateNickname(String nickname) {//닉네임 중복 검사
-        Map<String, String> returnJson = new HashMap<>();
+    public Map<String, Boolean> checkDuplicateNickname(String nickname) {//닉네임 중복 검사
+        Map<String, Boolean> returnJson = new HashMap<>();
         if (userRepo.findByNickname(nickname).orElse(null) == null)
-            returnJson.put("success","true");
+            returnJson.put("success",true);
         else
-            returnJson.put("success","false");
+            returnJson.put("success",false);
         return returnJson;
     }
 
     public List<Score> getScoreList(User examiner) {
         List<Score> scores = scoreRepo.findByExaminerOrderByScoreDesc(examiner);
-        User answerer = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         return scores;
     }
 
