@@ -34,8 +34,7 @@ public class UserController {
     @PostMapping //회원가입
     public ResponseEntity<?> signUp(@RequestBody Map<String, String> map) {
         User user = User.builder().nickname(map.get("nickname")).password(map.get("password")).build();
-        userService.saveUser(user);
-        return ResponseEntity.ok("{}");
+        return new ResponseEntity<>(userService.saveUser(user),HttpStatus.OK);
     }
 
     @GetMapping("/rank")

@@ -22,7 +22,7 @@ public class LoginService {
     public Map<String, String> checkLogin(String nickname, String password){
         Map<String, String> returnJson = new HashMap<>();
         Optional<User> user = userRepo.findByNickname(nickname);
-        if(!passwordEncoder.matches(password, user.get().getPassword())){
+        if(!user.isPresent()||!passwordEncoder.matches(password, user.get().getPassword())){
             returnJson.put("success","false");
         }
         else
