@@ -20,7 +20,7 @@ import java.util.*;
 public class UserService {
     private final UserRepository userRepo;
     private final ScoreRepository scoreRepo;
-
+    private final PasswordEncoder passwordEncoder;
 
     public void changeQuizCreate(int quizCreate) {//사용자의 퀴즈 생성 여부 변경
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -28,12 +28,12 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public Map<String, String> checkDuplicateNickname(String nickname) {//닉네임 중복 검사
-        Map<String, String> returnJson = new HashMap<>();
+    public Map<String, Boolean> checkDuplicateNickname(String nickname) {//닉네임 중복 검사
+        Map<String, Boolean> returnJson = new HashMap<>();
         if (userRepo.findByNickname(nickname).orElse(null) == null)
-            returnJson.put("success","true");
+            returnJson.put("success",true);
         else
-            returnJson.put("success","false");
+            returnJson.put("success",false);
         return returnJson;
     }
 
@@ -44,8 +44,17 @@ public class UserService {
         return scores;
     }
 
-    public void saveUser(User user) {
-        userRepo.save(user);
+    public Map<String, Boolean> saveUser(User user) {
+        Map<String, Boolean> returnJson = new HashMap<>();
+        User result = User.builder()
+                .nickname(user.getNickname())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .roles(Collections.singletonList("ROLE_USER"))
+                .build();
+        if(userRepo.save(result) != null)
+            returnJson.put("success",true);
+        else returnJson.put("success",false);
+        return returnJson;
     }
 
 
