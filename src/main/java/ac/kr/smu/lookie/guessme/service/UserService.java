@@ -1,18 +1,19 @@
 package ac.kr.smu.lookie.guessme.service;
 
+import ac.kr.smu.lookie.guessme.config.security.JwtTokenProvider;
 import ac.kr.smu.lookie.guessme.domain.Score;
 import ac.kr.smu.lookie.guessme.domain.User;
+import ac.kr.smu.lookie.guessme.exception.CNicknameSigninFailedException;
 import ac.kr.smu.lookie.guessme.repository.ScoreRepository;
 import ac.kr.smu.lookie.guessme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,18 @@ public class UserService {
         return scores;
     }
 
-    public void saveUser(User user) {
-        userRepo.save(user);
+    public Map<String, String> saveUser(User user) {
+        Map<String, String> returnJson = new HashMap<>();
+        User result = User.builder()
+                .nickname(user.getNickname())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .roles(Collections.singletonList("ROLE_USER"))
+                .build();
+        if(userRepo.save(result) != null)
+            returnJson.put("success","true");
+        else returnJson.put("success","false");
+        return returnJson;
     }
+
+
 }
