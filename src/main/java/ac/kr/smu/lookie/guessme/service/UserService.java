@@ -42,16 +42,16 @@ public class UserService {
         return scores;
     }
 
-    public Map<String, String> saveUser(User user) {
-        Map<String, String> returnJson = new HashMap<>();
+    public Map<String, Boolean> saveUser(User user) {
+        Map<String, Boolean> returnJson = new HashMap<>();
         User result = User.builder()
                 .nickname(user.getNickname())
                 .password(passwordEncoder.encode(user.getPassword()))
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build();
         if(userRepo.save(result) != null)
-            returnJson.put("success","true");
-        else returnJson.put("success","false");
+            returnJson.put("success",true);
+        else returnJson.put("success",false);
         return returnJson;
     }
 
