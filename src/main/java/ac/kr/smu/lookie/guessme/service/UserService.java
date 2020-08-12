@@ -20,8 +20,7 @@ import java.util.*;
 public class UserService {
     private final UserRepository userRepo;
     private final ScoreRepository scoreRepo;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+
 
     public void changeQuizCreate(int quizCreate) {//사용자의 퀴즈 생성 여부 변경
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -49,14 +48,5 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public Map<String, String> checkLogin(String nickname, String password){
-        Map<String, String> returnJson = new HashMap<>();
-        Optional<User> user = userRepo.findByNickname(nickname);
-        if(!passwordEncoder.matches(password, user.get().getPassword())){
-            returnJson.put("success","false");
-        }
-        else
-            returnJson.put("success",jwtTokenProvider.createToken(String.valueOf(user.get().getUserId()), user.get().getRoles()));
-        return returnJson;
-    }
+
 }
