@@ -26,9 +26,9 @@ public class UserController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
-    @GetMapping
-    public ResponseEntity<?> getUser(@RequestBody Map<String, String> json){//닉네임 중복확인
-        return new ResponseEntity<>(userService.checkDuplicateNickname(json.get("nickname")), HttpStatus.OK);
+    @GetMapping("/{nickname}")
+    public ResponseEntity<?> getUser(@PathVariable("nickname") String nickname){//닉네임 중복확인
+        return new ResponseEntity<>(nickname, HttpStatus.OK);
     }
 
     @PostMapping //회원가입
