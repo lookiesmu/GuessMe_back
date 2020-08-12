@@ -2,6 +2,7 @@ package ac.kr.smu.lookie.guessme.controller;
 
 import ac.kr.smu.lookie.guessme.service.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -9,10 +10,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
-@EnableWebMvc
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
