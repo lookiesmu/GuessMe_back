@@ -1,25 +1,26 @@
 package ac.kr.smu.lookie.guessme.service;
 
+import ac.kr.smu.lookie.guessme.config.security.JwtTokenProvider;
 import ac.kr.smu.lookie.guessme.domain.Score;
 import ac.kr.smu.lookie.guessme.domain.User;
+import ac.kr.smu.lookie.guessme.exception.CNicknameSigninFailedException;
 import ac.kr.smu.lookie.guessme.repository.ScoreRepository;
 import ac.kr.smu.lookie.guessme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepo;
     private final ScoreRepository scoreRepo;
-    private final PasswordEncoder passwordEncoder;
+
 
     public void changeQuizCreate(int quizCreate) {//사용자의 퀴즈 생성 여부 변경
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -46,4 +47,6 @@ public class UserService {
     public void saveUser(User user) {
         userRepo.save(user);
     }
+
+
 }
