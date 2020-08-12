@@ -39,8 +39,6 @@ public class UserService {
 
     public List<Score> getScoreList(User examiner) {
         List<Score> scores = scoreRepo.findByExaminerOrderByScoreDesc(examiner);
-        User answerer = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         return scores;
     }
 
