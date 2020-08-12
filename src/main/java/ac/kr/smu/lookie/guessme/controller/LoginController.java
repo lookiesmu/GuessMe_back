@@ -1,5 +1,6 @@
 package ac.kr.smu.lookie.guessme.controller;
 
+import ac.kr.smu.lookie.guessme.service.LoginService;
 import ac.kr.smu.lookie.guessme.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,11 @@ import java.util.Map;
 @RequestMapping
 public class LoginController {
 
-    private final UserService userService;
+    private final LoginService loginService;
 
     @PostMapping(value = "/login") //로그인 (+ 에러처리)
     public ResponseEntity<?> login(@RequestBody Map<String, String> map){
-        return new ResponseEntity<>(userService.checkLogin(map.get("nickname"), map.get("password")), HttpStatus.OK);
+        return new ResponseEntity<>(loginService.checkLogin(map.get("nickname"), map.get("password")), HttpStatus.OK);
     }
 
 }
