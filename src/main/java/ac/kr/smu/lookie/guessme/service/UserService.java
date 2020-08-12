@@ -60,15 +60,3 @@ public class UserService {
         return returnJson;
     }
 }
-
-//    @PostMapping(value = "/login") //login
-////    public String login(@RequestParam String nickname, @RequestParam String password){
-//    public String login(@RequestBody Map<String, String> map){
-////        User user = User.builder().nickname(map.get("nickname")).password(map.get("password")).build();
-//        Optional<User> user = userRepository.findByNickname(map.get("nickname"));
-//        //.orElseThrow(CNicknameSigninFailedException::new));
-//        if(!passwordEncoder.matches(map.get("password"), user.get().getPassword()))
-//            throw new CNicknameSigninFailedException();
-//
-//        return jwtTokenProvider.createToken(String.valueOf(user.get().getUserId()),user.get().getRoles());
-//    }

@@ -22,26 +22,11 @@ import java.util.Optional;
 @RequestMapping
 public class LoginController {
 
-    private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
-
-
+    
     @PostMapping(value = "/login") //로그인 (+ 에러처리)
     public ResponseEntity<?> login(@RequestBody Map<String, String> map){
         return new ResponseEntity<>(userService.checkLogin(map.get("nickname"), map.get("password")), HttpStatus.OK);
     }
-////    public String login(@RequestParam String nickname, @RequestParam String password){
-//    public String login(@RequestBody Map<String, String> map){
-////        User user = User.builder().nickname(map.get("nickname")).password(map.get("password")).build();
-//        Optional<User> user = userRepository.findByNickname(map.get("nickname"));
-//                //.orElseThrow(CNicknameSigninFailedException::new));
-//        if(!passwordEncoder.matches(map.get("password"), user.get().getPassword()))
-//            throw new CNicknameSigninFailedException();
-//
-//        return jwtTokenProvider.createToken(String.valueOf(user.get().getUserId()),user.get().getRoles());
-//    }
-
 
 }
