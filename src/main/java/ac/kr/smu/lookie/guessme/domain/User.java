@@ -1,5 +1,6 @@
 package ac.kr.smu.lookie.guessme.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -46,6 +47,7 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() { //security에서 사용하는 회원구분 id
         return this.nickname;
     }

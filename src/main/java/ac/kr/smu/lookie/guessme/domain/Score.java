@@ -1,9 +1,8 @@
 package ac.kr.smu.lookie.guessme.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+
 
 import javax.persistence.*;
 
@@ -14,10 +13,12 @@ import javax.persistence.*;
 @Getter
 @IdClass(ScoreId.class)
 @Builder
+@ToString
 public class Score {
     @Id
     @JoinColumn(name="examiner")
     @OneToOne
+    @JsonIgnore
     private User examiner;
 
     @Id
@@ -27,4 +28,5 @@ public class Score {
 
     @Column
     private int score;
+
 }

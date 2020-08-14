@@ -1,25 +1,29 @@
 package ac.kr.smu.lookie.guessme.controller;
 
 import ac.kr.smu.lookie.guessme.domain.Quiz;
+import ac.kr.smu.lookie.guessme.domain.User;
 import ac.kr.smu.lookie.guessme.domain.UserQuiz;
 import ac.kr.smu.lookie.guessme.service.QuizService;
 import ac.kr.smu.lookie.guessme.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/quizzes")
+@Slf4j
 public class QuizController {
     private final QuizService quizService;
     private final UserService userService;
@@ -52,8 +56,14 @@ public class QuizController {
     }
 
     @PostMapping("/{nickname}")//퀴즈 풀기
-    public ResponseEntity<?> solveQuiz(@RequestBody Map<String, String> json, @PathVariable("nickname") String nickname) {
-        quizService.solveQuiz(Integer.valueOf(json.get("score")), nickname);
+    public ResponseEntity<?> solveQuiz(@RequestBody Map<String, String> json, @PathVariable("nickname") String nickname, @AuthenticationPrincipal User user) {
+        if(!quizService.isSolved(user, nickname)) {//출제자의 퀴즈를 풀었을 경우
+            Map<String, String> body = new HashMap<>();
+            body.put("msg","이미 풀었던 퀴즈 입니다.");
+            return ResponseEntity.badRequest().body(body);
+        }
+
+        quizService.solveQuiz(Integer.valueOf(json.get("score")), user,nickname);
         return ResponseEntity.ok("{}");
     }
 
