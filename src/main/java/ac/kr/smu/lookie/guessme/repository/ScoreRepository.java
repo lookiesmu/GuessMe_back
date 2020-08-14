@@ -11,4 +11,6 @@ public interface ScoreRepository extends JpaRepository<Score, ScoreId> {
     public List<Score> findByExaminerOrderByScoreDesc(User examiner);
 
     public Score findByExaminerAndAnswerer(User examiner, User answerer);
+
+    public void deleteByExaminer(User examiner);
 }
