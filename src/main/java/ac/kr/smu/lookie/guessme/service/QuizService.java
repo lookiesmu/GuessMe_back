@@ -66,6 +66,7 @@ public class QuizService {
     }
     public void delete(){
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        scoreRepo.deleteByExaminer(user);
         userQuizRepo.deleteByUser(user);
     }
 
