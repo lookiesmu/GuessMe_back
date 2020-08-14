@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +55,8 @@ public class QuizService {
         return userQuizList;
     }
 
-    public void solveQuiz(int score, String nickname){
+    public void solveQuiz(int score,User answerer, String nickname){
         User examiner = userRepo.findByNickname(nickname).get();//출제자
-        User answerer = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();//문제를 푼 사람
         scoreRepo.save(Score.builder().answerer(answerer).examiner(examiner).score(score).build());
     }
     public void register(List<Quiz> quizList){
@@ -69,4 +69,8 @@ public class QuizService {
         userQuizRepo.deleteByUser(user);
     }
 
+    public boolean isSolved(User answerer, String nickname){//이미 출제자의 퀴즈를 푼 적이 있는지 확인
+        User examiner = userRepo.findByNickname(nickname).get();
+        return scoreRepo.findByExaminerAndAnswerer(examiner, answerer) == null;
+    }
 }
