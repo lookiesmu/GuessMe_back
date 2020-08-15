@@ -23,12 +23,13 @@ public class LoginService {
         Map<String, String> returnJson = new HashMap<>();
         Optional<User> user = userRepo.findByNickname(nickname);
 
-        if(!user.isPresent()||!passwordEncoder.matches(password, user.get().getPassword())){
+        if(!user.isPresent()||!passwordEncoder.matches(password, user.get().getPassword()))
             returnJson.put("success",null);
-        }
+       
         else{
             returnJson.put("nickname",user.get().getNickname());
             returnJson.put("token",jwtTokenProvider.createToken(String.valueOf(user.get().getUserId()), user.get().getRoles()));
+        }
         return returnJson;
     }
 }
