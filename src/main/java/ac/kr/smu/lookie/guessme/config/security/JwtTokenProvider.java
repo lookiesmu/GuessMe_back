@@ -42,7 +42,7 @@ public class JwtTokenProvider { //jwt token 생성 및 유효성 검증 컴포�
         return Jwts.builder()
                 .setClaims(claims) //데이터
                 .setIssuedAt(now) //토큰 발행일자
-                .setExpiration(new Date(now.getTime()+tokenValidMilisecond)) //만료시간
+//                .setExpiration(new Date(now.getTime()+tokenValidMilisecond)) //만료시간
                 .signWith(SignatureAlgorithm.HS256, secretKey) //암호화 알고리즘, secret값 세팅
                 .compact();
     }

@@ -10,14 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@EnableWebMvc
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
@@ -26,9 +24,9 @@ public class UserController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
-    @GetMapping
-    public ResponseEntity<?> getUser(@RequestBody Map<String, String> json){//닉네임 중복확인
-        return new ResponseEntity<>(userService.checkDuplicateNickname(json.get("nickname")), HttpStatus.OK);
+    @GetMapping("/{nickname}")
+    public ResponseEntity<?> getUser(@PathVariable("nickname") String nickname){//닉네임 중복확인
+        return new ResponseEntity<>(userService.checkDuplicateNickname(nickname), HttpStatus.OK);
     }
 
     @PostMapping //회원가입
