@@ -66,8 +66,9 @@ public class JwtTokenProvider { //jwt token 생성 및 유효성 검증 컴포�
     //jwt token 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken){
         try{
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
+//            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+//            return !claims.getBody().getExpiration().before(new Date());
+            return Jwts.parser().isSigned(jwtToken);
         }catch (Exception e){
             return false;
         }
