@@ -29,6 +29,7 @@ public class LoginService {
         else{
             returnJson.put("nickname",user.get().getNickname());
             returnJson.put("token",jwtTokenProvider.createToken(String.valueOf(user.get().getUserId()), user.get().getRoles()));
+    }
         return returnJson;
     }
 }
